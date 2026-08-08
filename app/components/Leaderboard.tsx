@@ -1,22 +1,26 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { quizSets } from "@/lib/data/sets";
 import { clearLeaderboard, leaderboardEvents, loadLeaderboard, overallScore } from "@/lib/leaderboard";
 import type { LeaderEntry } from "@/lib/leaderboard";
+import type { QuizSet } from "@/lib/types";
 
-const GRAND_TOTAL = quizSets.reduce((s, x) => s + x.total, 0);
+interface Props {
+  sets: QuizSet[];
+  ns?: string;
+}
 
-export default function Leaderboard() {
+export default function Leaderboard({ sets, ns = "" }: Props) {
+  const GRAND_TOTAL = sets.reduce((s, x) => s + x.total, 0);
   const [entries, setEntries] = useState<LeaderEntry[]>([]);
   const [tab, setTab] = useState<string>("overall");
 
   useEffect(() => {
-    const refresh = () => setEntries(loadLeaderboard());
+    const refresh = () => setEntries(loadLeaderboard(ns));
     refresh();
     leaderboardEvents.addEventListener("change", refresh);
     return () => leaderboardEvents.removeEventListener("change", refresh);
-  }, []);
+  }, [ns]);
 
   const ranked = useMemo(() => {
     const sorted = [...entries].sort((a, b) => {
@@ -29,7 +33,7 @@ export default function Leaderboard() {
   }, [entries, tab]);
 
   const medal = (i: number) => (i === 0 ? "gold" : i === 1 ? "silver" : i === 2 ? "bronze" : "");
-  const tabTotal = tab === "overall" ? GRAND_TOTAL : quizSets.find((s) => s.id === tab)?.total ?? 0;
+  const tabTotal = tab === "overall" ? GRAND_TOTAL : sets.find((s) => s.id === tab)?.total ?? 0;
 
   return (
     <div className="card pad">
@@ -40,7 +44,7 @@ export default function Leaderboard() {
         >
           🏆 รวมทุกชุด ({GRAND_TOTAL} คะแนน)
         </button>
-        {quizSets.map((s) => (
+        {sets.map((s) => (
           <button
             key={s.id}
             className={`lb-tab ${tab === s.id ? "active" : ""}`}
@@ -92,7 +96,7 @@ export default function Leaderboard() {
           <button
             className="btn ghost small"
             onClick={() => {
-              if (confirm("ล้างอันดับทั้งหมด?")) clearLeaderboard();
+              if (confirm("ล้างอันดับทั้งหมด?")) clearLeaderboard(ns);
             }}
           >
             🗑️ ล้างอันดับ (เครื่องนี้)

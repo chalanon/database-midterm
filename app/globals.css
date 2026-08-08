@@ -975,3 +975,117 @@ textarea.q-input {
     font-size: 20px;
   }
 }
+
+/* ---------- Landing: subject grid ---------- */
+.subject-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 18px;
+  margin: 10px 0 36px;
+}
+
+.subject-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px;
+  color: var(--text);
+  box-shadow: var(--shadow);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.subject-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent-border);
+  box-shadow: 0 8px 24px rgba(79, 70, 229, 0.14);
+}
+
+.subject-icon {
+  font-size: 30px;
+  margin-bottom: 4px;
+}
+
+.subject-card h3 {
+  font-size: 21px;
+  margin-bottom: 2px;
+}
+
+.subject-tagline {
+  display: inline-block;
+  align-self: flex-start;
+  background: var(--accent-soft);
+  color: var(--accent);
+  border: 1px solid var(--accent-border);
+  border-radius: 999px;
+  padding: 2px 12px;
+  font-size: 12.5px;
+  font-weight: 600;
+  margin: 6px 0 10px;
+}
+
+.subject-card p {
+  margin: 0 0 16px;
+  font-size: 14px;
+  color: var(--text-soft);
+  flex: 1;
+}
+
+.subject-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.subject-meta span {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 3px 10px;
+  font-size: 12.5px;
+  color: var(--text-soft);
+  white-space: nowrap;
+}
+
+.subject-enter {
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* ---------- Landing: how-to ---------- */
+.howto-list {
+  margin: 4px 0 4px 20px;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.howto-list li {
+  padding-left: 4px;
+  color: var(--text-soft);
+  font-size: 14.5px;
+}
+
+.howto-list li::marker {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+@media (max-width: 640px) {
+  .subject-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* subject link in nav (subject page) */
+.nav-links .subject-link {
+  background: var(--accent-soft);
+  color: var(--accent);
+  border: 1px solid var(--accent-border);
+  border-radius: 999px;
+  padding: 5px 12px;
+  font-weight: 600;
+}
+

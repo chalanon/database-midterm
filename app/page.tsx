@@ -1,144 +1,110 @@
-import { quizSets } from "@/lib/data/sets";
-import { studySections } from "@/lib/data/study";
-import Quiz from "@/app/components/Quiz";
-import Leaderboard from "@/app/components/Leaderboard";
-import RichText from "@/app/components/RichText";
-import type { QuizSet } from "@/lib/types";
-
-const GRAND_TOTAL = quizSets.reduce((s, x) => s + x.total, 0);
-
-const setById: Record<string, QuizSet> = Object.fromEntries(quizSets.map((s) => [s.id, s]));
+import Link from "next/link";
+import { subjects } from "@/lib/data/subjects";
 
 export default function Home() {
+  const totalSections = subjects.reduce((s, x) => s + x.sections.length, 0);
+  const totalSets = subjects.reduce((s, x) => s + x.sets.length, 0);
+  const totalPoints = subjects.reduce((s, x) => s + x.sets.reduce((a, b) => a + b.total, 0), 0);
+
   return (
     <>
       <nav className="topnav">
         <div className="inner">
-          <a href="#top" className="brand">
-            <span className="logo">DB</span>
-            ติว Database กลางภาค
-          </a>
+          <Link href="/" className="brand">
+            <span className="logo">📚</span>
+            ศูนย์ติวออนไลน์
+          </Link>
           <div className="nav-links">
-            <a href="#study">📖 เนื้อหา</a>
-            <a href="#practice">✍️ แบบฝึกหัด</a>
-            <a href="#rank">🏆 อันดับ</a>
+            <a href="#subjects">📖 วิชาที่เปิดสอน</a>
+            <a href="#howto">ℹ️ วิธีใช้งาน</a>
           </div>
         </div>
       </nav>
 
       <main id="top">
         <div className="container">
-          {/* Hero */}
           <header className="hero">
-            <span className="badge">📚 สรุป + แบบฝึกหัดสุ่มข้อ · ตรวจเฉลยได้ · จัดอันดับ</span>
-            <h1>เตรียมสอบกลางภาค Database แบบ onepage</h1>
+            <span className="badge">📚 รวมบทสรุป + แบบฝึกหัดสุ่มข้อ หลายวิชา ในที่เดียว</span>
+            <h1>เลือกวิชาที่อยากติว แล้วเริ่มได้เลย</h1>
             <p className="sub">
-              เนื้อหาครบ: Normalization 1NF–4NF, ER Diagram / Crow's Foot, Data Dictionary, SQL
-              + แบบฝึกหัด 6 ชุด ที่สุ่มโจทย์ให้ไม่ซ้ำกันในแต่ละรอบ พร้อมตรวจคำตอบและดูเฉลย
+              แต่ละวิชาเป็นหน้า onepage มีเนื้อหาอ่านเป็นบท แบบฝึกหัดท้ายบท และชุดจำลองสอบที่สุ่มโจทย์
+              ให้ใหม่ทุกครั้ง พร้อมตรวจคำตอบ ดูเฉลย และจัดอันดับคะแนน (นับรอบแรก)
             </p>
-            <div className="hero-actions">
-              <a className="btn primary" href="#practice">
-                ✍️ เริ่มทำแบบฝึกหัด
-              </a>
-              <a className="btn" href="#study">
-                📖 อ่านเนื้อหา
-              </a>
-            </div>
             <div className="stat-row">
               <div className="stat">
-                <b>{studySections.length}</b>
+                <b>{subjects.length}</b>
+                <span>วิชาที่เปิด</span>
+              </div>
+              <div className="stat">
+                <b>{totalSections}</b>
                 <span>บทเนื้อหา</span>
               </div>
               <div className="stat">
-                <b>6</b>
+                <b>{totalSets}</b>
                 <span>ชุดแบบฝึกหัด</span>
               </div>
               <div className="stat">
-                <b>{GRAND_TOTAL}</b>
-                <span>คะแนนรวมทั้งหมด</span>
-              </div>
-              <div className="stat">
-                <b>🎲</b>
-                <span>สุ่มโจทย์ไม่ซ้ำทุกรอบ</span>
+                <b>{totalPoints}</b>
+                <span>คะแนนรวม</span>
               </div>
             </div>
           </header>
 
-          {/* Study content */}
-          <section id="study">
-            <div className="section-head">
-              <div className="icon">📖</div>
-              <div>
-                <h2>เนื้อหาสรุปก่อนสอบ</h2>
-                <p>อ่านเนื้อหาแต่ละบทให้จบ แล้วลองทำแบบฝึกหัดท้ายบทเฉพาะเรื่องของบทนั้น</p>
-              </div>
-            </div>
-            {studySections.map((s) => (
-              <article className="study-card" key={s.id}>
-                <header>
-                  <div className="icon">{s.icon}</div>
-                  <div>
-                    <h3>{s.title}</h3>
-                    <p>{s.intro}</p>
-                  </div>
-                  {s.practice && s.practice.length > 0 && (
-                    <span className="practice-chip">
-                      📝 มีแบบฝึกหัดท้ายบท {s.practice.length} ชุด
-                    </span>
-                  )}
-                </header>
-                <div className="study-body">
-                  <RichText blocks={s.blocks} />
-                </div>
-                {s.practice && s.practice.length > 0 && (
-                  <div className="study-practice">
-                    <div className="practice-label">
-                      📝 แบบฝึกหัดท้ายบท — ทำได้เลย มีคะแนน + ตรวจ + เข้าอันดับ (นับรอบแรก)
+          <section id="subjects">
+            <div className="subject-grid">
+              {subjects.map((s) => {
+                const points = s.sets.reduce((a, b) => a + b.total, 0);
+                return (
+                  <Link key={s.id} href={`/${s.id}`} className="subject-card">
+                    <div className="subject-icon">{s.icon}</div>
+                    <h3>{s.name}</h3>
+                    <span className="subject-tagline">{s.tagline}</span>
+                    <p>{s.description}</p>
+                    <div className="subject-meta">
+                      <span>📖 {s.sections.length} บท</span>
+                      <span>✍️ {s.sets.length} ชุด</span>
+                      <span>🎯 {points} คะแนน</span>
                     </div>
-                    {s.practice.map((id) => {
-                      const set = setById[id];
-                      return set ? <Quiz key={set.id} set={set} /> : null;
-                    })}
-                  </div>
-                )}
-              </article>
-            ))}
+                    <span className="subject-enter">เข้าเรียน →</span>
+                  </Link>
+                );
+              })}
+            </div>
           </section>
 
-          {/* Practice */}
-          <section id="practice">
+          <section id="howto" className="card">
             <div className="section-head">
-              <div className="icon">✍️</div>
+              <div className="icon">ℹ️</div>
               <div>
-                <h2>แบบฝึกหัดจำลองสอบ</h2>
-                <p>
-                  แต่ละชุดสุ่มโจทย์ให้ใหม่ทุกครั้ง · กด “ตรวจคำตอบ/ดูเฉลย” แล้วประเมินตัวเอง · คะแนนรอบแรก
-                  เท่านั้นที่เข้าการจัดอันดับ
-                </p>
+                <h2>วิธีใช้งาน</h2>
+                <p>ทีละขั้นตอน เริ่มติวได้ในไม่กี่นาที</p>
               </div>
             </div>
-            {quizSets.map((set) => (
-              <Quiz key={set.id} set={set} />
-            ))}
-          </section>
-
-          {/* Leaderboard */}
-          <section id="rank">
-            <div className="section-head">
-              <div className="icon">🏆</div>
-              <div>
-                <h2>จัดอันดับ</h2>
-                <p>นับเฉพาะคะแนนรอบแรกของแต่ละคน (รอบอื่นไม่นับ) — บันทึกอยู่บนเบราว์เซอร์เครื่องนี้</p>
-              </div>
-            </div>
-            <Leaderboard />
+            <ol className="howto-list">
+              <li>
+                <b>เลือกวิชา</b> จากด้านบน เพื่อเข้าหน้าติวของวิชานั้น
+              </li>
+              <li>
+                <b>อ่านเนื้อหาเป็นบท</b> (📖) แล้วลองทำแบบฝึกหัดท้ายบทของบทนั้นโดยตรง
+              </li>
+              <li>
+                <b>ทำแบบฝึกหัดจำลองสอบ</b> (✍️) — โจทย์สุ่มใหม่ทุกครั้ง กด “ตรวจคำตอบ” เพื่อดูคะแนนและเฉลย
+              </li>
+              <li>
+                <b>บันทึกชื่อเข้าอันดับ</b> (🏆) — คะแนนรอบแรกเท่านั้นที่นับ เขียนทับไม่ได้
+              </li>
+              <li>
+                กลับมาทำซ้ำได้เรื่อย ๆ จนกว่าจะได้คะแนนเต็มทุกชุด
+              </li>
+            </ol>
           </section>
         </div>
       </main>
 
       <footer className="footer">
         <div className="container">
-          ทำไว้ติวสอบกลางภาค Database · ใช้ประโยชน์ได้ฟรี (MIT) · <a href="#top">กลับขึ้นบน ↑</a>
+          ศูนย์ติวออนไลน์ · ทำไว้ติวสอบกลางภาค · ใช้ประโยชน์ได้ฟรี (MIT) ·{" "}
+          <a href="#top">กลับขึ้นบน ↑</a>
         </div>
       </footer>
     </>

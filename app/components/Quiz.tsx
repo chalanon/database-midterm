@@ -8,6 +8,7 @@ import RichText from "./RichText";
 
 interface QuizProps {
   set: QuizSet;
+  ns?: string;
 }
 
 interface Round {
@@ -15,7 +16,7 @@ interface Round {
   questions: Question[];
 }
 
-export default function Quiz({ set }: QuizProps) {
+export default function Quiz({ set, ns }: QuizProps) {
   const buildRound = useCallback((): Round => {
     const variant = pickRandom(set.variants);
     const qs = shuffle(variant.questions);
@@ -56,7 +57,7 @@ export default function Quiz({ set }: QuizProps) {
   };
 
   const handleSave = () => {
-    const saved = saveFirstAttempt(savedName, set.id, score, set.total);
+    const saved = saveFirstAttempt(savedName, set.id, score, set.total, ns);
     setSaveMsg(
       saved
         ? { ok: true, text: `บันทึก ${savedName} (รอบแรก) ไว้ในอันดับแล้ว` }
