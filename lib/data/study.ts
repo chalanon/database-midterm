@@ -2,6 +2,48 @@ import type { StudySection } from "../types";
 
 export const studySections: StudySection[] = [
   {
+    id: "overview",
+    title: "ภาพรวมข้อสอบกลางภาค",
+    icon: "🎯",
+    intro: "ดูโครงสร้างข้อสอบก่อน — รู้ว่าออกอะไรเท่าไหร่ แล้ววางแผนอ่านให้ถูกที่",
+    blocks: [
+      { type: "p", text: "ข้อสอบกลางภาค Database ครอบคลุม **6 ชุด** รวม **135 คะแนน** — ทุกชุดจะสุ่มโจทย์ให้ใหม่ทุกครั้งที่เข้าแบบฝึกหัด เรื่องที่ออกมีดังนี้:" },
+      {
+        type: "table",
+        headers: ["ชุด", "หัวข้อ", "คะแนน", "ลักษณะโจทย์"],
+        rows: [
+          ["1", "Normalization (1NF–4NF)", "20", "เขียนแยกตาราง + บอกเหตุผล (โจทย์ยาวสุด)"],
+          ["2", "Crow's Foot ER Diagram", "20", "วาดแผนภาพ + ระบุ PK/FK + แก้ M:N"],
+          ["3", "Data Dictionary", "15", "เขียนโครงสร้างทุกตาราง + แทนค่าข้อมูลจริง"],
+          ["4", "แทนค่าข้อมูลจริง (ตรวจ FK)", "15", "เลือก ถูก/ผิด + เขียนข้อมูลให้ FK เชื่อมกันถูก"],
+          ["5", "Fill in the gaps", "35", "เติมคำศัพท์ 7 ข้อ (สุ่มจาก 27 คำ)"],
+          ["6", "แก้ประโยคให้ถูกต้อง", "30", "แก้ประโยคภาษาอังกฤษ 6 ข้อ (สุ่มจาก 15 ประโยค)"],
+        ],
+      },
+      {
+        type: "callout",
+        tone: "tip",
+        title: "กลยุทธ์การทำข้อสอบ",
+        text: "ทำชุด 1–4 ก่อน เพราะเป็นโจทย์ใหญ่รวม 70 คะแนน แล้วค่อยเก็บชุด 5–6 ซึ่งตอบสั้น/เร็ว (65 คะแนน) — อ่านบทที่ตรงกับแต่ละชุด แล้วปิดด้วยแบบฝึกหัดท้ายบทของบทนั้นทันที",
+      },
+      { type: "h3", text: "แผนอ่าน 3 วัน" },
+      {
+        type: "ol",
+        items: [
+          "**วันแรก:** บท คีย์และแนวคิดพื้นฐาน + บท ER Diagram/Crow's Foot (ปูฐานให้ครบ)",
+          "**วันที่สอง:** บท Normalization 1NF–4NF (หัวใจข้อสอบ — อ่านให้แม่น แล้วทำชุด 1 ทันที)",
+          "**วันที่สาม:** บท Data Dictionary + บท SQL แล้วทำแบบฝึกหัดจำลองสอบทั้ง 6 ชุด เก็บคะแนนลงอันดับ",
+        ],
+      },
+      {
+        type: "callout",
+        tone: "warn",
+        title: "อย่าลืมเรื่องอันดับ",
+        text: "คะแนนที่เข้าอันดับคือ **รอบแรกเท่านั้น** (ต่อชื่อ 1 ชื่อใน 1 เบราว์เซอร์) — ถ้าทำแบบฝึกหัดท้ายบทแล้ว จะไม่นับซ้ำอีกในหน้าแบบฝึกหัด ให้เก็บรอบแรกไว้ทำตอนที่พร้อมจริง",
+      },
+    ],
+  },
+  {
     id: "basics",
     title: "คีย์และแนวคิดพื้นฐาน",
     icon: "🔑",
@@ -63,6 +105,35 @@ export const studySections: StudySection[] = [
         title: "เทคนิคอ่านโจทย์",
         text: "คำว่า “1 คน / 1 ครั้ง / 1 แผนก” อยู่ด้าน ‘หนึ่ง’ และ “หลาย / ได้หลาย” อยู่ด้าน ‘หลาย’ เสมอ เช่น “พนักงานรับหลายออเดอร์” = พนักงาน 1 : N ออเดอร์",
       },
+      { type: "h3", text: "ตัวอย่างตารางที่มี FK (ร้านกาแฟ)" },
+      { type: "p", text: "ตาราง **ORDERS** ในข้อสอบชุด 4 มีทั้ง PK และ FK ในตารางเดียว — ให้สังเกตว่าคอลัมน์ไหนคือคีย์อะไร:" },
+      {
+        type: "table",
+        headers: ["คอลัมน์", "คีย์", "ความหมาย"],
+        rows: [
+          ["order_id", "PK", "รหัสออเดอร์ — ห้ามซ้ำ ห้าม NULL"],
+          ["customer_id", "FK → CUSTOMER", "ลูกค้าที่สั่ง — ต้องมีค่าอยู่ในตาราง CUSTOMER"],
+          ["employee_id", "FK → EMPLOYEE", "พนักงานที่รับออเดอร์ — ต้องมีค่าอยู่ในตาราง EMPLOYEE"],
+        ],
+      },
+      {
+        type: "callout",
+        tone: "info",
+        title: "วิธีตรวจ FK ให้ถูก",
+        text: "เปิดตารางแม่ (เช่น CUSTOMER) แล้วดูว่า PK มีค่าอะไรบ้าง — ทุกค่าที่อยู่ในคอลัมน์ FK ต้องตรงกับค่าใน PK นั้นหมด ถ้ามีค่าที่ไม่มีอยู่จริง (เช่น menu_id=999) = **ผิดกฎ FK**",
+      },
+      { type: "h3", text: "สรุปต้องจำ (บทที่ 1)" },
+      {
+        type: "ul",
+        items: [
+          "**PK** = ระบุแถวได้ไม่ซ้ำ, ห้าม NULL, มีได้ 1 ตัวต่อตาราง / **Composite Key** = PK หลายคอลัมน์",
+          "**FK** = อ้าง PK ของอีกตาราง, ค่าซ้ำได้, NULL ได้ (ถ้าเป็น optional)",
+          "**Super Key** ⊃ **Candidate Key** ⊃ **PK** (Candidate คือ Super Key ที่เล็กที่สุด)",
+          "ความสัมพันธ์: **1:1**, **1:N**, **M:N** (M:N ต้องแยกตารางเชื่อม)",
+          "**วงกลม o** = optional (มีหรือไม่มีก็ได้) / **ขีด |** = mandatory (ต้องมี)",
+          "คำศัพท์ประจำบท: Entity, Attribute, Tuple, Degree, Cardinality, Domain, Weak/Strong Entity",
+        ],
+      },
     ],
   },
   {
@@ -122,6 +193,38 @@ export const studySections: StudySection[] = [
           "ถ้าฝั่ง M:N ให้สร้างตารางเชื่อมที่เอา PK ทั้งสองฝั่งมาเป็น FK (และเป็น PK รวม)",
         ],
       },
+      { type: "h3", text: "วิธีวาด Crow's Foot ทีละขั้น (ร้านกาแฟ)" },
+      { type: "p", text: "ขั้นตอนเดียวกันนี้ใช้กับข้อสอบชุด 2 ได้เลย:" },
+      {
+        type: "ol",
+        items: [
+          "**ขั้นที่ 1** ระบุ Entity ทั้งหมดจากโจทย์: ลูกค้า, เมนู, พนักงาน, ออเดอร์, รายการสินค้า, การชำระเงิน",
+          "**ขั้นที่ 2** อ่านความสัมพันธ์ทีละประโยค เช่น “ลูกค้า 1 คน มีหลายออเดอร์” = **1:N**",
+          "**ขั้นที่ 3** เขียนเส้น: ฝั่ง ‘หนึ่ง’ ใช้ขีด (|) ฝั่ง ‘หลาย’ ใช้เท้าอีกา — แล้วเติมวงกลมถ้าโจทย์บอก “อาจจะ/มีหรือไม่มีก็ได้”",
+          "**ขั้นที่ 4** เจอ M:N (ออเดอร์–เมนู) ให้สร้างตารางเชื่อม **ORDER_DETAIL** แยกออกมา",
+          "**ขั้นที่ 5** ตรวจทุกเส้นครบทั้ง 6 Entity และดูว่าความสัมพันธ์เป็น 1:1, 1:N หรือผ่านตารางเชื่อม",
+        ],
+      },
+      {
+        type: "er",
+        code: `erDiagram
+    CUSTOMER ||--o{ ORDERS : "สั่ง/มีหลายออเดอร์"
+    EMPLOYEE ||--o{ ORDERS : "รับหลายออเดอร์"
+    ORDERS ||--|{ ORDER_DETAIL : "มีหลายรายการ"
+    MENU ||--o{ ORDER_DETAIL : "ถูกสั่งในหลายออเดอร์"
+    ORDERS ||--|| PAYMENT : "ชำระเงิน 1 ครั้ง"`,
+        caption: "คำตอบชุด 2: ออเดอร์–เมนู M:N ถูกแยกด้วย ORDER_DETAIL (กลายเป็น 1:N สองชุด)",
+      },
+      { type: "h3", text: "สรุปต้องจำ (บทที่ 2)" },
+      {
+        type: "ul",
+        items: [
+          "อ่านสัญลักษณ์: ขีด = หนึ่ง / เท้าอีกา = หลาย / วงกลม = optional",
+          "M:N ต้องแยกตารางเชื่อม (PK ทั้งสองฝั่งมาเป็น FK และเป็น PK รวม)",
+          "ฝั่ง ‘หลาย’ เก็บ PK ของฝั่ง ‘หนึ่ง’ เป็น FK",
+          "รายการที่ต้องส่งในข้อสอบ: แผนภาพครบทุกความสัมพันธ์ + ตาราง PK/FK + cardinality ทุกเส้น",
+        ],
+      },
     ],
   },
   {
@@ -174,15 +277,39 @@ export const studySections: StudySection[] = [
       { type: "p", text: "ตัวอย่างคลาสสิก: R(A, B, C) มี FD **AB → C** และ **C → B**\nCandidate Keys คือ AB และ AC → ผ่าน 3NF (B กับ C เป็น prime) แต่ **ไม่ผ่าน BCNF** เพราะ C → B โดยที่ C ไม่ใช่ Candidate Key" },
       { type: "h3", text: "4NF — Fourth Normal Form (รู้ไว้)" },
       { type: "p", text: "✅ ผ่าน BCNF + ❌ ห้าม **Multivalued Dependency** (ค่าใน Attribute ที่เป็นอิสระหลายค่า เช่น วิชาที่เรียน กับ กิจกรรมที่ทำ เก็บในตารางเดียวกัน) ต้องแยกออกเป็นตารางตามกลุ่ม" },
-      { type: "h3", text: "สูตรลัดสอบ" },
+      { type: "h3", text: "ตัวอย่างทำโจทย์จริง (ร้านขายหนังสือ — ข้อสอบชุด 1)" },
+      { type: "p", text: "โจทย์ให้ตารางเดียวพร้อม FD: **OrderID → CustomerName, CustomerPhone, Employee** และ **BookID → BookName, Author, Price**" },
+      {
+        type: "code",
+        lang: "text",
+        text: "OrderID | CustomerName | CustomerPhone | BookID | BookName | Author  | Price | Qty | Employee\n1001    | สมชาย        | 0812345678     | B001   | Python   | อาจารย์ A | 350   | 2   | นัท\n1001    | สมชาย        | 0812345678     | B005   | Database | อาจารย์ B | 420   | 1   | นัท\n1002    | สมหญิง       | 0899999999     | B001   | Python   | อาจารย์ A | 350   | 1   | ตาล",
+      },
       {
         type: "ol",
+        items: [
+          "**1NF:** ทุกเซลล์มีค่าเดียวอยู่แล้ว → ผ่าน (ไม่ต้องแก้)",
+          "**2NF:** PK ผสมคือ (OrderID, BookID) แต่มี partial dependency (OrderID → Customer… และ BookID → BookName…) → แยกเป็น 3 ตาราง: ORDER, BOOK, ORDER_DETAIL",
+          "**3NF:** ตรวจแล้วไม่มี transitive dependency (non-key ไม่กำหนด non-key ตัวอื่น) → ผลลัพธ์เท่ากับ 2NF",
+          "**BCNF:** ทุก determinant (OrderID, BookID, (OrderID,BookID)) เป็น candidate key → ผ่าน",
+          "**ระบุ PK:** ORDER: OrderID / BOOK: BookID / ORDER_DETAIL: (OrderID, BookID) PK รวม",
+        ],
+      },
+      {
+        type: "callout",
+        tone: "tip",
+        title: "วิธีตอบให้ได้เต็มคะแนน",
+        text: "ทุกข้อต้องบอกเหตุผลด้วย เช่น “แยกเพราะ OrderID → CustomerName เป็น partial dependency” — การบอกแค่ผลลัพธ์ไม่พอ ต้องอธิบายว่าแยกเพราะ dependency แบบไหน",
+      },
+      { type: "h3", text: "สรุปต้องจำ (บทที่ 3)" },
+      {
+        type: "ul",
         items: [
           "1NF: ห้ามค่าซับซ้อน/ซ้ำในช่องเดียว → เจอให้แยกแถว",
           "2NF: เจอ PK ผสม แล้วมี attribute ขึ้นกับ PK บางตัว → แยกตาราง",
           "3NF: เจอ non-key ขึ้นกับ non-key อีกตัว → แยกตาราง",
           "BCNF: เจอ FD ที่ตัวตั้งไม่ใช่ candidate key → แยกตาราง",
           "โจทย์หลายข้อตอบ “ผ่าน 3NF = ผ่าน BCNF” เพราะไม่มี transitive dependency — บอกเหตุผลให้ครบ",
+          "M:N เกี่ยวข้องกับ Normalization ด้วย — มักเจอพร้อมกันในข้อ 1–4",
         ],
       },
     ],
@@ -216,6 +343,45 @@ export const studySections: StudySection[] = [
         tone: "tip",
         title: "วิธีเลือก Data Type ให้ถูก",
         text: "ข้อความสั้น → VARCHAR(n) / จำนวนเต็ม → INT / ตัวเลขทศนิยม → DECIMAL(10,2) / วันที่ → DATE / เวลา → TIME / วันที่และเวลา → DATETIME / ใช่-ไม่ใช่ → BOOLEAN",
+      },
+      { type: "h3", text: "ตารางที่ต้องระวัง: คอลัมน์ที่ทั้ง PK และ FK (ร้านกาแฟ)" },
+      { type: "p", text: "ตารางเชื่อม **ORDER_DETAIL** ใช้ (order_id, menu_id) เป็น PK รวม — แต่คอลัมน์ทั้งสองก็เป็น FK ไปหา ORDERS และ MENU ด้วย ใน Data Dictionary ต้องเขียนว่าเป็น **PK + FK** พร้อมกัน:" },
+      {
+        type: "table",
+        headers: ["Field", "Data Type", "PK", "FK", "Null", "Description"],
+        rows: [
+          ["order_id", "INT", "PK", "FK → ORDERS", "No", "รหัสออเดอร์ (จากตาราง ORDERS)"],
+          ["menu_id", "INT", "PK", "FK → MENU", "No", "รหัสเมนู (จากตาราง MENU)"],
+          ["qty", "INT", "-", "-", "No", "จำนวนที่สั่ง"],
+        ],
+      },
+      { type: "h3", text: "แทนค่าข้อมูลจริง + ตรวจ FK (ข้อสอบชุด 3–4)" },
+      { type: "p", text: "หลังเขียนโครงสร้างต้องใส่ข้อมูลจริงอย่างน้อย 2 แถวต่อตาราง และ **FK ทุกค่าต้องอ้างอิง PK ที่มีอยู่จริง** — ตัวอย่างที่ถูกต้อง:" },
+      {
+        type: "table",
+        headers: ["ตาราง", "ตัวอย่างข้อมูล"],
+        rows: [
+          ["CUSTOMER", "(1, สมชาย, 0811111111), (2, สมหญิง, 0822222222)"],
+          ["ORDERS", "(1001, 2025-06-01, 175.00, customer_id=1, employee_id=2)"],
+          ["ORDER_DETAIL", "(1001, 101, 2), (1001, 102, 1)"],
+          ["PAYMENT", "(P01, cash, 175.00, order_id=1001)"],
+        ],
+      },
+      {
+        type: "callout",
+        tone: "warn",
+        title: "ดักจุดพลาดที่บ่อยที่สุด",
+        text: "ห้ามใส่ค่าที่ไม่มีอยู่จริงในตารางแม่ เช่น ORDER_DETAIL มี order_id=999 แต่ ORDERS ไม่มี 999, หรือ PAYMENT อ้าง order_id=1003 ทั้งที่ไม่มีออเดอร์นี้ — ตรวจลำดับด้วย: ต้องมีแถวแม่ก่อนถึงใส่แถวลูกได้",
+      },
+      { type: "h3", text: "สรุปต้องจำ (บทที่ 4)" },
+      {
+        type: "ul",
+        items: [
+          "คอลัมน์มาตรฐาน: Field, Data Type, Length/Size, PK, FK, Null, Description",
+          "เลือก Data Type ให้ตรง: INT / VARCHAR(n) / DECIMAL(10,2) / DATE / DATETIME",
+          "คอลัมน์ PK รวมที่อ้างอีกตาราง → เขียน PK + FK ในช่องเดียวกัน",
+          "ข้อมูลจริง 2 แถวขึ้นไป + FK ต้องเชื่อมกันถูกทุกตัว (ลำดับ: แม่ก่อน ลูกทีหลัง)",
+        ],
       },
     ],
   },
@@ -262,6 +428,54 @@ CREATE TABLE booking (
   slot_id      INT NOT NULL,
   FOREIGN KEY (customer_id) REFERENCES customer(customer_id)
 );`,
+      },
+      { type: "h3", text: "คำสั่ง DML ที่ต้องจำ" },
+      {
+        type: "code",
+        lang: "sql",
+        text: `-- เพิ่มข้อมูล (INSERT)
+INSERT INTO customer (customer_id, name, phone)
+VALUES (1, 'สมชาย', '0811111111');
+
+-- ค้นหาข้อมูล (SELECT)
+SELECT name, phone FROM customer WHERE customer_id = 1;
+
+-- แก้ไขข้อมูล (UPDATE)
+UPDATE customer SET phone = '0899999999' WHERE customer_id = 1;
+
+-- ลบข้อมูล (DELETE)
+DELETE FROM customer WHERE customer_id = 1;`,
+      },
+      { type: "h3", text: "จาก ER → Data Dictionary → SQL (ของจริง)" },
+      { type: "p", text: "ความสัมพันธ์ 1:N ที่วาดไว้ใน ER จะกลายเป็น **FOREIGN KEY ... REFERENCES** ใน SQL — เช่น ลูกค้า 1:N ออเดอร์ → ตาราง ORDERS ต้องมี customer_id ที่อ้างตาราง CUSTOMER" },
+      {
+        type: "code",
+        lang: "sql",
+        text: `CREATE TABLE orders (
+  order_id    INT PRIMARY KEY,
+  order_date  DATE NOT NULL,
+  total       DECIMAL(10,2) NOT NULL,
+  customer_id INT NOT NULL,
+  employee_id INT NOT NULL,
+  FOREIGN KEY (customer_id) REFERENCES customer(customer_id),
+  FOREIGN KEY (employee_id) REFERENCES employee(employee_id)
+);`,
+      },
+      {
+        type: "callout",
+        tone: "info",
+        title: "หลักการแปลง ER → SQL",
+        text: "Entity → ตาราง (CREATE TABLE) / Attribute → คอลัมน์ (พร้อม Data Type ตามบทที่ 4) / ความสัมพันธ์ 1:N → ฝั่งหลายมี FK อ้างฝั่งหนึ่ง / M:N → ตารางเชื่อม + FK ไปทั้งสองฝั่ง",
+      },
+      { type: "h3", text: "สรุปต้องจำ (บทที่ 5)" },
+      {
+        type: "ul",
+        items: [
+          "DDL = CREATE/ALTER/DROP (สร้าง/แก้โครงสร้าง) · DML = INSERT/UPDATE/DELETE/SELECT (จัดการข้อมูล)",
+          "ชนิดข้อมูล: INT / VARCHAR(n) / CHAR(n) / TEXT / DECIMAL(p,s) / DATE / TIME / DATETIME / BOOLEAN",
+          "FK ใน SQL: FOREIGN KEY (คอลัมน์) REFERENCES ตารางแม่(คอลัมน์ PK)",
+          "SELECT ... FROM ... WHERE ... คือพื้นฐานของทุกคำสั่งค้นหา",
+        ],
       },
     ],
   },

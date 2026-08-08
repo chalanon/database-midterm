@@ -46,8 +46,8 @@ export default function Home() {
             </div>
             <div className="stat-row">
               <div className="stat">
-                <b>5</b>
-                <span>หัวข้อเนื้อหา</span>
+                <b>{studySections.length}</b>
+                <span>บทเนื้อหา</span>
               </div>
               <div className="stat">
                 <b>6</b>
