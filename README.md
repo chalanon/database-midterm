@@ -31,12 +31,27 @@ npm run build    # output อยู่ที่ ./out
 
 ## 🌐 Deploy ขึ้น GitHub Pages
 
-1. สร้าง repo บน GitHub แล้ว push โค้ดขึ้นสาขา `main`
-2. ไปที่ **Settings → Pages → Source: GitHub Actions**
-3. workflow ใน `.github/workflows/deploy.yml` จะ build และ deploy ให้อัตโนมัติทุกครั้งที่ push
-4. เว็บจะอยู่ที่ `https://<username>.github.io/<repo-name>/`
+มี 2 วิธี (เว็บ deploy ไปที่ `https://chalanon.github.io/database-midterm/`):
 
-> path ของเว็บ (basePath) ถูกตั้งอัตโนมัติจากชื่อ repo ผ่านตัวแปร `NEXT_PUBLIC_BASE_PATH`
+### วิธี A: สคริปต์ในเครื่อง (แนะนำ ถ้าบัญชียังรัน Actions ไม่ได้)
+
+```powershell
+.\deploy.ps1
+```
+
+สคริปต์จะ build (`NEXT_PUBLIC_BASE_PATH=/database-midterm`) แล้ว push `out/` ไปสาขา `gh-pages`
+Pages ของ repo นี้ตั้งค่าให้ serve จากสาขา `gh-pages` แล้ว
+
+### วิธี B: GitHub Actions (อัตโนมัติ)
+
+1. Push โค้ดขึ้นสาขา `main`
+2. เปิด **Settings → Pages → Source: GitHub Actions**
+3. workflow ใน `.github/workflows/deploy.yml` จะ build และ deploy ให้อัตโนมัติ
+
+> ⚠️ **ข้อสังเกต**: ถ้าข้อความใน Actions/Pages ขึ้นว่า *"account is locked due to a billing issue"*
+> ต้องไปแก้บัญชีที่ https://github.com/settings/billing ก่อน แล้วค่อย deploy ใหม่ (วิธี A ไม่พึ่ง Actions เลยทำงานได้ทันที)
+>
+> path ของเว็บ (basePath) ตั้งจากชื่อ repo ผ่านตัวแปร `NEXT_PUBLIC_BASE_PATH`
 
 ## 📁 โครงสร้าง
 
