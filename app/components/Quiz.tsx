@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import type { Question, QuizSet } from "@/lib/types";
 import { matchesAnswer, pickRandom, shuffle } from "@/lib/normalize";
 import { saveFirstAttempt } from "@/lib/leaderboard";
@@ -10,20 +10,31 @@ interface QuizProps {
   set: QuizSet;
 }
 
+interface Round {
+  variant: string;
+  questions: Question[];
+}
+
 export default function Quiz({ set }: QuizProps) {
-  const buildRound = useCallback(() => {
+  const buildRound = useCallback((): Round => {
     const variant = pickRandom(set.variants);
     const qs = shuffle(variant.questions);
     const picked = set.pick && qs.length > set.pick ? qs.slice(0, set.pick) : qs;
     return { variant: variant.label, questions: picked };
   }, [set]);
 
-  const [{ variant, questions }, setRound] = useState(buildRound);
+  const [round, setRound] = useState<Round | null>(null);
   const [answers, setAnswers] = useState<Record<string, string | number>>({});
   const [selfMarks, setSelfMarks] = useState<Record<string, "ok" | "no">>({});
   const [checked, setChecked] = useState(false);
   const [savedName, setSavedName] = useState("");
   const [saveMsg, setSaveMsg] = useState<{ ok: boolean; text: string } | null>(null);
+
+  useEffect(() => {
+    if (!round) setRound(buildRound());
+  }, [round, buildRound]);
+
+  const { variant, questions } = round ?? { variant: "", questions: [] };
 
   const score = useMemo(() => {
     let s = 0;
@@ -54,6 +65,26 @@ export default function Quiz({ set }: QuizProps) {
   };
 
   const variantIntro = set.variants.find((v) => v.label === variant)?.intro;
+
+  if (!round) {
+    return (
+      <div className="quiz-set-card">
+        <div className="quiz-set-head">
+          <div className="quiz-no">{set.no}</div>
+          <div>
+            <h3>{set.title}</h3>
+            <p className="sub">{set.subtitle}</p>
+          </div>
+          <div className="quiz-meta">
+            <span className="pill neutral">กำลังสุ่มข้อ...</span>
+          </div>
+        </div>
+        <div className="quiz-body">
+          <div className="empty">กำลังเตรียมโจทย์สำหรับชุดนี้…</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="quiz-set-card">
