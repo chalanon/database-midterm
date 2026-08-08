@@ -3,8 +3,11 @@ import { studySections } from "@/lib/data/study";
 import Quiz from "@/app/components/Quiz";
 import Leaderboard from "@/app/components/Leaderboard";
 import RichText from "@/app/components/RichText";
+import type { QuizSet } from "@/lib/types";
 
 const GRAND_TOTAL = quizSets.reduce((s, x) => s + x.total, 0);
+
+const setById: Record<string, QuizSet> = Object.fromEntries(quizSets.map((s) => [s.id, s]));
 
 export default function Home() {
   return (
@@ -67,7 +70,7 @@ export default function Home() {
               <div className="icon">📖</div>
               <div>
                 <h2>เนื้อหาสรุปก่อนสอบ</h2>
-                <p>อ่านให้จบก่อนทำแบบฝึกหัด — มีตัวอย่างและแผนภาพ ER ให้ดู</p>
+                <p>อ่านเนื้อหาแต่ละบทให้จบ แล้วลองทำแบบฝึกหัดท้ายบทเฉพาะเรื่องของบทนั้น</p>
               </div>
             </div>
             {studySections.map((s) => (
@@ -78,10 +81,26 @@ export default function Home() {
                     <h3>{s.title}</h3>
                     <p>{s.intro}</p>
                   </div>
+                  {s.practice && s.practice.length > 0 && (
+                    <span className="practice-chip">
+                      📝 มีแบบฝึกหัดท้ายบท {s.practice.length} ชุด
+                    </span>
+                  )}
                 </header>
                 <div className="study-body">
                   <RichText blocks={s.blocks} />
                 </div>
+                {s.practice && s.practice.length > 0 && (
+                  <div className="study-practice">
+                    <div className="practice-label">
+                      📝 แบบฝึกหัดท้ายบท — ทำได้เลย มีคะแนน + ตรวจ + เข้าอันดับ (นับรอบแรก)
+                    </div>
+                    {s.practice.map((id) => {
+                      const set = setById[id];
+                      return set ? <Quiz key={set.id} set={set} /> : null;
+                    })}
+                  </div>
+                )}
               </article>
             ))}
           </section>

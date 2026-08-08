@@ -47,4 +47,6 @@ export interface StudySection {
   icon: string;
   intro: string;
   blocks: Block[];
+  /** id ของ QuizSet ที่เป็นแบบฝึกหัดท้ายบทของหัวข้อนี้ */
+  practice?: string[];
 }

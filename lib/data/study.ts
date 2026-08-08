@@ -6,6 +6,7 @@ export const studySections: StudySection[] = [
     title: "คีย์และแนวคิดพื้นฐาน",
     icon: "🔑",
     intro: "รากฐานของ Database ที่ต้องรู้ก่อนทำข้อ 1–6",
+    practice: ["set6"],
     blocks: [
       {
         type: "p",
@@ -69,6 +70,7 @@ export const studySections: StudySection[] = [
     title: "ER Diagram และ Crow's Foot",
     icon: "🗺️",
     intro: "วิธีวาดและอ่านความสัมพันธ์แบบมืออาชีพ",
+    practice: ["set2"],
     blocks: [
       { type: "p", text: "**ER Diagram (Entity-Relationship Diagram)** คือ แผนภาพที่ใช้แสดง Entity และความสัมพันธ์ระหว่าง Entity ก่อนสร้างตารางจริง **Crow's Foot** คือ สัญลักษณ์เท้าอีกาที่ปลายเส้นความสัมพันธ์ เพื่อบอก Cardinality และบอกว่าความสัมพันธ์เป็นแบบมี/ไม่มีก็ได้ (Optional) หรือต้องมีเสมอ (Mandatory)" },
       { type: "h3", text: "สัญลักษณ์ Crow's Foot" },
@@ -127,6 +129,7 @@ export const studySections: StudySection[] = [
     title: "Normalization 1NF–4NF",
     icon: "🧩",
     intro: "หัวใจหลักของข้อสอบ — ต้องไล่ระดับให้ได้",
+    practice: ["set1"],
     blocks: [
       { type: "p", text: "**Normalization** คือ กระบวนการจัดโครงสร้างตารางให้ลดความซ้ำซ้อน (redundancy) และลดความผิดปกติของข้อมูล (anomaly) โดยแบ่งตารางออกเป็นตารางย่อยตาม Functional Dependency" },
       { type: "h3", text: "Functional Dependency (FD) คืออะไร" },
@@ -189,6 +192,7 @@ export const studySections: StudySection[] = [
     title: "Data Dictionary",
     icon: "📖",
     intro: "เอกสารบอกโครงสร้างตารางทุกคอลัมน์",
+    practice: ["set3", "set4"],
     blocks: [
       { type: "p", text: "**Data Dictionary** คือ เอกสาร/ตารางที่อธิบายโครงสร้างของแต่ละตารางว่า มีคอลัมน์อะไรบ้าง ชนิดข้อมูลอะไร ยาวเท่าไหร่ เป็นคีย์หรือไม่ อนุญาตให้ NULL ได้ไหม และใช้เก็บอะไร" },
       { type: "p", text: "**ข้อสอบจะให้เขียน:** Field, Data Type, Length, PK, FK, Null, Description (พร้อมแทนค่าข้อมูลจริงอย่างน้อย 2 แถว)" },
@@ -220,6 +224,7 @@ export const studySections: StudySection[] = [
     title: "SQL และชนิดข้อมูล",
     icon: "⚡",
     intro: "เตรียมสอบข้อเติมคำและสร้างตาราง",
+    practice: ["set5"],
     blocks: [
       { type: "p", text: "**SQL ย่อมาจาก Structured Query Language** เป็นภาษาที่ใช้จัดการฐานข้อมูลเชิงสัมพันธ์ แบ่งเป็น **DDL** (สร้างโครงสร้าง: CREATE, ALTER, DROP) และ **DML** (จัดการข้อมูล: INSERT, UPDATE, DELETE, SELECT)" },
       { type: "h3", text: "ชนิดข้อมูลที่ต้องจำ" },
