@@ -113,7 +113,7 @@ export default function Quiz({ set }: QuizProps) {
             🎲 สุ่มข้อใหม่
           </button>
           <span className="progress">
-            คำอธิบาย: {set.no === 5 ? "กรอกคำศัพท์ที่หายไป" : set.no === 6 ? "แก้ประโยคให้ถูกต้อง (พิมพ์แก้เอง)" : "ตอบเองจากนั้นกดตรวจเพื่อดูเฉลย"}
+            คำอธิบาย: {set.no === 5 ? "กรอกคำศัพท์ที่หายไป" : set.no === 6 ? "แก้ประโยคให้ถูกต้อง (พิมพ์แก้เอง)" : "พิมพ์คำตอบในช่อง → กดตรวจเพื่อดูเฉลย → ประเมินตัวเอง"}
           </span>
         </div>
 
@@ -233,6 +233,15 @@ function QuestionCard({ q, index, answers, setAnswers, selfMarks, setSelfMarks, 
           placeholder={q.type === "fill" ? "พิมพ์คำตอบ..." : "พิมพ์ประโยคที่แก้แล้ว..."}
           value={typeof answers[q.id] === "string" ? (answers[q.id] as string) : ""}
           disabled={checked}
+          onChange={(e) => update(e.target.value)}
+        />
+      )}
+
+      {q.type === "long" && (
+        <textarea
+          className="q-input"
+          placeholder="พิมพ์คำตอบของคุณที่นี่… ตรวจกับเฉลยแล้วกด “ตอบถูก / ตอบผิด”"
+          value={typeof answers[q.id] === "string" ? (answers[q.id] as string) : ""}
           onChange={(e) => update(e.target.value)}
         />
       )}
