@@ -47,7 +47,20 @@ export default function Mermaid({ code, caption }: { code: string; caption?: str
         }
         const id = "mmd-" + Math.random().toString(36).slice(2);
         const { svg } = await m.render(id, code);
-        if (!cancelled && ref.current) ref.current.innerHTML = svg;
+        if (!cancelled && ref.current) {
+          ref.current.innerHTML = svg;
+          // ตั้งความกว้างตามขนาดจริง (viewBox) แทน width=100% ของ mermaid
+          // เพื่อให้อ่านได้บนมือถือ (เลื่อนแนวนอน) ไม่หดจนตัวหนังสือเล็กลง
+          const el = ref.current.querySelector("svg");
+          const vb = el?.getAttribute("viewBox");
+          if (el && vb) {
+            const w = parseFloat(vb.split(" ")[2]);
+            if (Number.isFinite(w) && w > 0) {
+              el.style.width = `${w}px`;
+              el.style.maxWidth = "none";
+            }
+          }
+        }
       } catch {
         if (!cancelled) setFailed(true);
       }

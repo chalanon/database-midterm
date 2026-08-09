@@ -113,8 +113,20 @@ export default function Quiz({ set, ns }: QuizProps) {
           <button className="btn" onClick={reset}>
             🎲 สุ่มข้อใหม่
           </button>
+          {!checked && (
+            <button className="btn" onClick={() => setChecked(true)}>
+              📖 ดูเฉลยทันที
+            </button>
+          )}
           <span className="progress">
-            คำอธิบาย: {set.no === 5 ? "กรอกคำศัพท์ที่หายไป" : set.no === 6 ? "แก้ประโยคให้ถูกต้อง (พิมพ์แก้เอง)" : "พิมพ์คำตอบในช่อง → กดตรวจเพื่อดูเฉลย → ประเมินตัวเอง"}
+            คำอธิบาย:{" "}
+            {set.no === 5
+              ? "กรอกคำศัพท์ที่หายไป"
+              : set.no === 6
+                ? "แก้ประโยคให้ถูกต้อง (พิมพ์แก้เอง)"
+                : questions.some((q) => q.type === "long")
+                  ? "โจทย์ปลายเปิด — ตอบเองก็ได้ หรือกด “ดูเฉลยทันที” เพื่ออ่านเฉลยอย่างเดียว (ประเมินเองว่าได้กี่คะแนน)"
+                  : "เลือก/พิมพ์คำตอบ → กด “ตรวจคำตอบ” เพื่อดูเฉลย"}
           </span>
         </div>
 
@@ -239,12 +251,18 @@ function QuestionCard({ q, index, answers, setAnswers, selfMarks, setSelfMarks, 
       )}
 
       {q.type === "long" && (
-        <textarea
-          className="q-input"
-          placeholder="พิมพ์คำตอบของคุณที่นี่… ตรวจกับเฉลยแล้วกด “ตอบถูก / ตอบผิด”"
-          value={typeof answers[q.id] === "string" ? (answers[q.id] as string) : ""}
-          onChange={(e) => update(e.target.value)}
-        />
+        <>
+          <textarea
+            className="q-input"
+            placeholder="พิมพ์คำตอบของคุณที่นี่… (ไม่บังคับ) แล้วกดตรวจเพื่อเทียบกับเฉลย"
+            value={typeof answers[q.id] === "string" ? (answers[q.id] as string) : ""}
+            onChange={(e) => update(e.target.value)}
+          />
+          <div className="feedback mid" style={{ marginBottom: 10 }}>
+            💡 ตอบเองก็ได้หรือไม่ตอบก็ได้ — กด “ตรวจคำตอบ/ดูเฉลย” ด้านล่างเพื่ออ่านเฉลย แล้วกด
+            “ตอบถูก/ตอบผิด” ประเมินคะแนนเอง
+          </div>
+        </>
       )}
 
       {checked && fb === "ok" && (

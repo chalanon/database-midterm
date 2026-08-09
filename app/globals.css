@@ -417,8 +417,13 @@ a {
   overflow-x: auto;
 }
 .mermaid-wrap svg {
-  max-width: 100%;
+  max-width: none !important;
   height: auto;
+  flex: 0 0 auto;
+  margin: 0 auto;
+}
+.mermaid-wrap {
+  max-width: 100%;
 }
 .er-caption {
   text-align: center;
