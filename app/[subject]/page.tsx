@@ -4,6 +4,7 @@ import { subjects } from "@/lib/data/subjects";
 import Quiz from "@/app/components/Quiz";
 import Leaderboard from "@/app/components/Leaderboard";
 import RichText from "@/app/components/RichText";
+import PyNotebook from "@/app/components/PyNotebook";
 import type { QuizSet } from "@/lib/types";
 
 export function generateStaticParams() {
@@ -30,6 +31,7 @@ export default async function SubjectPage({ params }: { params: Promise<{ subjec
           </Link>
           <div className="nav-links">
             <a href="#study">📖 เนื้อหา</a>
+            {subject.id === "python" && <a href="#playground">🐍 ลองรัน</a>}
             <a href="#practice">✍️ แบบฝึกหัด</a>
             <a href="#rank">🏆 อันดับ</a>
             <Link href="/" className="subject-link">
@@ -114,6 +116,22 @@ export default async function SubjectPage({ params }: { params: Promise<{ subjec
               </article>
             ))}
           </section>
+
+          {subject.id === "python" && (
+            <section id="playground">
+              <div className="section-head">
+                <div className="icon">🐍</div>
+                <div>
+                  <h2>ลองรัน Python กันจริง ๆ</h2>
+                  <p>
+                    รันโค้ด Python สดบนเว็บ (Pyodide รันบนเครื่องคุณ ไม่ส่งไปเซิร์ฟเวอร์) — รันทีละ cell ตัวแปรจำไว้ข้าม
+                    cell ได้เหมือน Jupyter Notebook
+                  </p>
+                </div>
+              </div>
+              <PyNotebook />
+            </section>
+          )}
 
           <section id="practice">
             <div className="section-head">

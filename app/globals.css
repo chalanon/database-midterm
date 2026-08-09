@@ -405,6 +405,144 @@ a {
   color: var(--amber);
 }
 
+/* ---------- Python notebook (Pyodide) ---------- */
+.pynb-desc {
+  margin: 0 0 14px;
+  font-size: 14.5px;
+}
+.pynb-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.pynb-examples {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  font-size: 13px;
+  color: var(--text-soft);
+}
+.pynb-loading {
+  padding: 10px 0;
+  font-size: 14.5px;
+  color: var(--text-soft);
+}
+.pynb-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.pynb-title {
+  font-weight: 700;
+  font-size: 15.5px;
+}
+.pynb-top .btn {
+  margin-left: auto;
+}
+.pynb-cell {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin: 12px 0;
+  overflow: hidden;
+  background: #fff;
+}
+.pynb-cell-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 12px;
+  background: #f4f6fb;
+  border-bottom: 1px solid var(--border);
+}
+.pynb-in {
+  font-family: "SFMono-Regular", Consolas, "Courier New", monospace;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent);
+}
+.pynb-cell-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 6px;
+}
+.pynb-code {
+  font-family: "SFMono-Regular", Consolas, "Courier New", monospace;
+  font-size: 13.5px;
+  line-height: 1.6;
+  border-radius: 0;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  min-height: 96px;
+  resize: vertical;
+}
+.pynb-code:focus {
+  border: none;
+  border-bottom: 1px solid var(--border);
+  box-shadow: none;
+}
+.pynb-out {
+  background: #fbfcfe;
+  padding: 10px 12px;
+  font-size: 13.5px;
+}
+.pynb-prev {
+  margin: 4px 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: "SFMono-Regular", Consolas, "Courier New", monospace;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--text);
+}
+.pynb-prev.pynb-err {
+  color: #b91c1c;
+  background: var(--red-soft);
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+.pynb-outline {
+  margin: 4px 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: "SFMono-Regular", Consolas, "Courier New", monospace;
+  font-size: 13px;
+  color: var(--text);
+}
+.pynb-outline b {
+  color: var(--sky);
+}
+.pynb-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 14px;
+}
+.pynb-note {
+  font-size: 13px;
+  color: var(--text-soft);
+}
+.pynb-note code {
+  background: #f0f2f6;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1px 6px;
+  font-size: 12px;
+}
+@media (max-width: 640px) {
+  .pynb-top .btn {
+    margin-left: 0;
+  }
+  .pynb-cell-actions .btn {
+    padding: 6px 10px;
+    font-size: 12.5px;
+  }
+}
+
 /* ---------- Mermaid ---------- */
 .mermaid-wrap {
   display: flex;
