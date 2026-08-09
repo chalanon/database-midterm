@@ -72,8 +72,8 @@ export default function Home() {
             </div>
           </section>
 
-          <section id="howto" className="card">
-            <div className="section-head">
+          <section id="howto" className="card pad howto-card">
+            <div className="section-head center">
               <div className="icon">ℹ️</div>
               <div>
                 <h2>วิธีใช้งาน</h2>
