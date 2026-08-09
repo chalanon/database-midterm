@@ -198,8 +198,9 @@ export const setEr: QuizSet = {
       questions: [
         long({
           id: "er-diagram",
-          title: "วาด ER Diagram แบบ Crow's Foot",
-          prompt: "วาด Crow's Foot พร้อมระบุ Cardinality ของทุกความสัมพันธ์",
+          title: "เขียนความสัมพันธ์ (Crow's Foot)",
+          prompt:
+            "พิมพ์ความสัมพันธ์ของทุกตารางแบบ Crow's Foot พร้อม Cardinality (เช่น CUSTOMER 1:N ORDERS — ลูกค้า 1 คนสั่งได้หลายออเดอร์)",
           points: 8,
           answer: "CUSTOMER 1–N ORDERS, EMPLOYEE 1–N ORDERS, ORDERS 1–N ORDER_DETAIL, MENU 1–N ORDER_DETAIL, ORDERS 1–1 PAYMENT",
           explanation: "M:N ของ ออเดอร์-เมนู ต้องแยกด้วยตารางเชื่อม ORDER_DETAIL",
